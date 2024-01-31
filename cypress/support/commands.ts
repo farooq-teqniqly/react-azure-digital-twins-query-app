@@ -33,6 +33,7 @@ declare global {
     interface Chainable {
       visitApp(url: string): Chainable<Element>;
       authenticate(instance: string): Chainable<Element>;
+      executeQuery(query: string): Chainable<Element>;
     }
   }
 }
@@ -47,6 +48,14 @@ Cypress.Commands.add("authenticate", (instance) => {
 
   const authenticateButton = getBySelector("#authenticate-button");
   authenticateButton.click();
+});
+
+Cypress.Commands.add("executeQuery", (query) => {
+  const queryInput = getBySelector("#query-input");
+  queryInput.type(query);
+
+  const executeButton = getBySelector("#query-execute-button");
+  executeButton.click();
 });
 
 export {};

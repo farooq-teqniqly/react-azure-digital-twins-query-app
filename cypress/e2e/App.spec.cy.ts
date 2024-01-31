@@ -37,12 +37,7 @@ describe("Query app", () => {
 
   it("executes the query typed by the user", () => {
     cy.authenticate("https://my-instance.api.wus2.digitaltwins.azure.net");
-
-    const queryInput = getBySelector("#query-input");
-    queryInput.type("SELECT * FROM digitaltwins");
-
-    const executeButton = getBySelector("#query-execute-button");
-    executeButton.click();
+    cy.executeQuery("SELECT * FROM digitaltwins");
 
     const results = getBySelector("#query-results");
     assertTextExact(results, "[]");
