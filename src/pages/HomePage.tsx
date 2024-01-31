@@ -72,6 +72,7 @@ function HomePage() {
                 className="me-auto"
                 placeholder="Type your query here..."
                 value="[]"
+                readOnly
               ></Form.Control>
             </div>
           </Col>
