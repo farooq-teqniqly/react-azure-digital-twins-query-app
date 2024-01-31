@@ -1,4 +1,7 @@
 /// <reference types="cypress" />
+
+import { getBySelector } from "./utilities";
+
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -29,12 +32,21 @@ declare global {
   namespace Cypress {
     interface Chainable {
       visitApp(url: string): Chainable<Element>;
+      authenticate(instance: string): Chainable<Element>;
     }
   }
 }
 
 Cypress.Commands.add("visitApp", (url) => {
   cy.visit(url);
+});
+
+Cypress.Commands.add("authenticate", (instance) => {
+  const instanceInput = getBySelector("#instance-input");
+  instanceInput.type(instance);
+
+  const authenticateButton = getBySelector("#authenticate-button");
+  authenticateButton.click();
 });
 
 export {};

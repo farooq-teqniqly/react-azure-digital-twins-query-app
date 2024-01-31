@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Stack from "react-bootstrap/Stack";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -6,6 +7,17 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 function HomePage() {
+  const [authenticated, setAuthenticated] = useState(false);
+  const [instanceValidated, setInstanceValidated] = useState(false);
+
+  const handleAuthenticate = () => {
+    setAuthenticated(true);
+  };
+
+  const validateInstance = () => {
+    setInstanceValidated(true);
+  };
+
   return (
     <>
       <Container>
@@ -18,12 +30,33 @@ function HomePage() {
           <Col>
             <Stack direction="horizontal" gap={3} className="py-3">
               <Form.Control
+                id="instance-input"
+                className="me-auto"
+                placeholder="Type your Azure digital twin instance URL here..."
+                onChange={validateInstance}
+              ></Form.Control>
+              <Button
+                id="authenticate-button"
+                variant="primary"
+                onClick={handleAuthenticate}
+                disabled={!instanceValidated}
+              >
+                Login
+              </Button>
+            </Stack>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Stack direction="horizontal" gap={3} className="py-3">
+              <Form.Control
                 id="query-input"
                 as="textarea"
                 className="me-auto"
                 placeholder="Type your query here..."
+                disabled={!authenticated}
               ></Form.Control>
-              <Button id="query-execute-button" variant="primary">
+              <Button id="query-execute-button" variant="primary" disabled={!authenticated}>
                 Execute
               </Button>
             </Stack>
