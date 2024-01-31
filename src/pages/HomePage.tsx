@@ -1,21 +1,36 @@
-import { useState } from "react";
+import { ChangeEvent, MouseEventHandler, useState } from "react";
 import Stack from "react-bootstrap/Stack";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import useAuthentication from "src/hooks/useAuthentication";
 
 function HomePage() {
-  const [authenticated, setAuthenticated] = useState(false);
   const [instanceValidated, setInstanceValidated] = useState(false);
+  const [instanceUrl, setInstanceUrl] = useState("");
+  const { authenticated, authenticate, digitalTwinServiceClient, error } = useAuthentication();
+  const [query, setQuery] = useState("");
+  const [queryResults, setQueryResults] = useState("");
 
   const handleAuthenticate = () => {
-    setAuthenticated(true);
+    console.log(instanceUrl);
+    authenticate(instanceUrl);
   };
 
-  const validateInstance = () => {
+  const validateInstance = (e: ChangeEvent<HTMLInputElement>) => {
     setInstanceValidated(true);
+    setInstanceUrl(e.target.value);
+  };
+
+  const handleQueryChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setQuery(e.target.value);
+  };
+
+  const executeQuery = async () => {
+    const results = await digitalTwinServiceClient!.queryTwins(query);
+    setQueryResults(JSON.stringify(results));
   };
 
   return (
@@ -55,8 +70,14 @@ function HomePage() {
                 className="me-auto"
                 placeholder="Type your query here..."
                 disabled={!authenticated}
+                onChange={handleQueryChange}
               ></Form.Control>
-              <Button id="query-execute-button" variant="primary" disabled={!authenticated}>
+              <Button
+                id="query-execute-button"
+                variant="primary"
+                disabled={!authenticated}
+                onClick={executeQuery}
+              >
                 Execute
               </Button>
             </Stack>
@@ -71,7 +92,7 @@ function HomePage() {
                 as="textarea"
                 className="me-auto"
                 placeholder="Type your query here..."
-                value="[]"
+                value={queryResults}
                 readOnly
               ></Form.Control>
             </div>
