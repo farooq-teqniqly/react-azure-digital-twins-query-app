@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEventHandler, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Stack from "react-bootstrap/Stack";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -10,7 +10,7 @@ import useAuthentication from "src/hooks/useAuthentication";
 function HomePage() {
   const [instanceValidated, setInstanceValidated] = useState(false);
   const [instanceUrl, setInstanceUrl] = useState("");
-  const { authenticated, authenticate, digitalTwinServiceClient, error } = useAuthentication();
+  const { authenticated, authenticate, digitalTwinServiceClient } = useAuthentication();
   const [query, setQuery] = useState("");
   const [queryResults, setQueryResults] = useState("");
 
