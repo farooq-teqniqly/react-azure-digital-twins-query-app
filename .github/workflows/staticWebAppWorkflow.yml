@@ -3,7 +3,7 @@ name: Deploy web app to Azure Static Web Apps
 env:
   APP_LOCATION: "/"
   API_LOCATION: ""
-  OUTPUT_LOCATION: "build" # location of client code build output
+  OUTPUT_LOCATION: "build"
 
 on:
   push:
